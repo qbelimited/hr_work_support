@@ -42,7 +42,6 @@ class TwoFAController extends Controller
 
         return back()->with('error', 'You entered wrong code.');
     }
-
     /**
      * Write code on Method
      *
@@ -50,9 +49,8 @@ class TwoFAController extends Controller
      */
     public function resend()
     {
-        auth()->user()->id;
-        User::generateCode();
+        auth()->user()->generateCode();
 
-        return back()->with('success', 'We sent you code on your email.');
+        return back()->with('success', 'We sent you code on your mobile number.');
     }
 }

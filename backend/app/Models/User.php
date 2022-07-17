@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Mail;
 use Laravel\Sanctum\HasApiTokens;
 use App\Mail\SendCodeMail;
+use Twilio\Rest\Client;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -25,6 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'fname',
         'lname',
         'email',
+        'phone',
         'password',
     ];
 
@@ -48,27 +50,34 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
+     * generate OTP and send sms
      *
-     *
+     * @return response()
      */
-    public static function generateCode()
+    public function generateCode()
     {
-        $code = rand(1000, 9999);
+        $code = rand(100000, 999999);
 
-        UserCode::updateOrCreate(
-            ['user_id' => auth()->user()->id],
-            ['code' => $code]
-        );
+        UserCode::updateOrCreate([
+            'user_id' => auth()->user()->id,
+            'code' => $code
+        ]);
+
+        $receiverNumber = auth()->user()->phone;
+        $message = "Your Login OTP code is " . $code;
 
         try {
-            $details = [
-                'title' => 'Your two factor authentication code is:',
-                'code' => $code
-            ];
+            $account_sid = getenv("TWILIO_SID");
+            $auth_token = getenv("TWILIO_TOKEN");
+            $number = getenv("TWILIO_FROM");
 
-            Mail::to(auth()->user()->email)->send(new SendCodeMail($details));
-        } catch (Exception $e) {
-            info("Error: " . $e->getMessage());
+            $client = new Client($account_sid, $auth_token);
+            $client->messages->create($receiverNumber, [
+                'from' => $number,
+                'body' => $message
+            ]);
+        } catch (\Exception $e) {
+            //
         }
     }
 }

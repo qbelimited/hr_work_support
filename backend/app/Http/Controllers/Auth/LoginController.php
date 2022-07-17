@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\UserCode;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -59,12 +59,11 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
 
-            auth()->user()->id;
-            User::generateCode();
+            auth()->user()->generateCode();
 
             return redirect()->route('2fa.index');
         }
 
-        return redirect("login")->withSuccess('Oppes! Invalid credentials');
+        return redirect("login")->withSuccess('Oppes! You have entered invalid credentials');
     }
 }
