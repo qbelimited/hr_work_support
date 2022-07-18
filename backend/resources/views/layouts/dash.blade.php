@@ -16,7 +16,6 @@
     <div id="app">
         @yield('content')
     </div>
-    @include('includes.scripts')
 </body>
 
 </html>

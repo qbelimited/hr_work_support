@@ -565,10 +565,11 @@
                     </div>
                 </div>
             </div>
+            @include('includes.footer')
         </div>
     </main>
     @include('includes.uiset')
-
+    @include('includes.scripts')
     <script>
         var ctx = document.getElementById("chart-bars").getContext("2d");
 
