@@ -17,3 +17,16 @@
 
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="{{ asset('js/material-dashboard.min.js?v=3.0.4') }}" defer></script>
+
+<script>
+    $(function() {
+        var current = location.pathname;
+        $('.navsidebar a').each(function() {
+            var $this = $(this);
+            // if the current path is like this link, make it active
+            if ($this.attr('href').indexOf(current) !== -1) {
+                $this.addClass('active');
+            }
+        })
+    })
+</script>
