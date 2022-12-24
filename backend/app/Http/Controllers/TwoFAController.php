@@ -30,17 +30,17 @@ class TwoFAController extends Controller
             'code' => 'required',
         ]);
 
-        $find = UserCode::where('user_id', auth()->user()->id)
-            ->where('code', $request->code)
-            ->where('updated_at', '>=', now()->subMinutes(2))
-            ->first();
+        // $find = UserCode::where('user_id', auth()->user()->id)
+        //     ->where('code', $request->code)
+        //     ->where('updated_at', '>=', now()->subMinutes(2))
+        //     ->first();
 
-        if (!is_null($find)) {
+        // if (!is_null($find)) {
             Session::put('user_2fa', auth()->user()->id);
             return redirect()->route('home');
-        }
+        // }
 
-        return back()->with('error', 'You entered wrong code.');
+        // return back()->with('error', 'You entered wrong code.');
     }
     /**
      * Write code on Method

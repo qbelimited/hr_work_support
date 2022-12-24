@@ -26,3 +26,8 @@ Route::get('/profile', [App\Http\Controllers\api\v1\UserController::class, 'show
 Route::get('2fa', [App\Http\Controllers\TwoFAController::class, 'index'])->name('2fa.index');
 Route::post('2fa', [App\Http\Controllers\TwoFAController::class, 'store'])->name('2fa.post');
 Route::get('2fa/reset', [App\Http\Controllers\TwoFAController::class, 'resend'])->name('2fa.resend');
+
+//EMPLOYEE ROUTES
+Route::get('/manage-employees', [App\Http\Controllers\EmployeesController::class, 'manageEmployees'])->name('manage-employees');
+Route::post('/add-employee', [App\Http\Controllers\EmployeesController::class, 'addEmployee'])->name('add-employee');
+Route::post('/upload-employee', [App\Http\Controllers\EmployeesController::class, 'importData'])->name('upload-employee');
