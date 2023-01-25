@@ -30,6 +30,7 @@
                                 <th>Department</th>
                                 <th>Work phone</th>
                                 <th>Work Email</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -43,6 +44,7 @@
                                 <td>{{$employee->department}}</td>
                                 <td>{{$employee->work_phone}}</td>
                                 <td>{{$employee->work_email}}</td>
+                                <td><button class="btn btn-warning btn-sm m-2" data-bs-toggle="modal" data-bs-target="#modal-edit-form" data-employee="{{$employee->id}}" onClick="editEmployee(this)">Edit</button><button class="btn btn-danger btn-sm m-2" data-employee="{{$employee->id}}" onClick="deactivateEmployee">Deactivate</button></td>
                                
                             </tr>
                              @endforeach 
@@ -97,6 +99,10 @@
         $(document).ready(function () {
             $('#example').DataTable();
         });
+
+        function editEmployee($data){
+            console.log($data);
+        }
 
         //submit employee data
         $("#sumbit_employee").on("click", function(e){

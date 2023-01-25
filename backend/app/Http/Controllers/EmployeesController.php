@@ -129,4 +129,58 @@ class EmployeesController extends Controller
 
     }
 
+    //edit employee data
+    public function updateEmployee(Request $request){
+
+         //validate incoming data
+         $validator = $request->validate([
+            'bank_acc_no' => [
+                    'required',
+                    Rule::unique('employees')->ignore($request->id),
+            ],
+            'mobile_phone' => [
+                    'required',
+                    Rule::unique('employees')->ignore($request->id),
+            ],
+            'work_phone' => [
+                    'required',
+                    Rule::unique('employees')->ignore($request->id),
+            ],
+            'work_email' => [
+                    'required',
+                    Rule::unique('employees')->ignore($request->id),
+            ],
+            'private_email' => [
+                    'required',
+                    Rule::unique('employees')->ignore($request->id),
+            ],
+        ]);
+
+        $employee = Employee::find($request->id)->update($request->all());
+
+        //return response
+        if($employee){
+            return response()->json(['responseCode' => 200, 'responseMessage' => 'Employee Updated']);
+        }else{
+            return response()->json(['responseCode' => 200, 'responseMessage' => 'Updating employee failed, contact system administrator']);
+        }
+    }
+
+    //deactivating employee
+    public function deactivateEmployee(Request $request){
+
+        //find employee object and set status to deactivated
+        $employee = Employee::find($request->id);
+        $employee->status = 0;
+
+        $result = $employee->save();
+
+        //return response
+        if($result){
+            return response()->json(['responseCode' => 200, 'responseMessage' => 'Employee Deactivated']);
+        }else{
+            return response()->json(['responseCode' => 200, 'responseMessage' => 'Deactivating employee failed, contact system administrator']);
+        }
+    }
+
 }
